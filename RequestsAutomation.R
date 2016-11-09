@@ -1,4 +1,4 @@
-setwd("/Users/Redirection/mahajn3/Documents/999R/R Repo/ReqInpFile")
+setwd("C:/Users/Redirection/mahajn3/Documents/GitHub/Requests-Automation")
 library(xlsx)
 library(openxlsx)
 library(RODBC)
