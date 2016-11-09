@@ -484,7 +484,7 @@ new5$Ops_Grp<- ifelse(
  ,new5$Ops_Grp,"OTHERS")
 
 
-###WORKAROUND  DEFECT
+###WORKAROUND  DEFECT .
 new5$Ops_Team[new5$Assignment_Group=="SSTS UAPM Support" ] <- "Operations Tools"
 new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-Host Operations"] <- "Batch"
 
