@@ -1,7 +1,9 @@
 setwd("C:/Users/Redirection/mahajn3/Documents/GitHub/Requests-Automation")
 library(xlsx)
+library(readxl)
 library(openxlsx)
 library(RODBC)
+library(dplyr)
 library(stringr)
 source("req_servnow_opsteam.R")
 source("req_rms_opsteam.R")
@@ -40,9 +42,12 @@ A3_Opened$Closed_At<-as.character(A3_Opened$Closed_At)
 
 A3_Opened$SLO_Breach<-ifelse(A3_Opened$SLO_Breach == 1,A3_Opened$SLO_Breach <- 'Y',A3_Opened$SLO_Breach <- 'N')
 
+A3_Opened<-subset(A3_Opened,Assignment_Group!=63465 | is.na(Assignment_Group))
+
+A3_Opened$Assignment_Group[A3_Opened$Assignment_Group==92322]<-"Enterprise Tools"
+
 A3_Opened$Ops_Team <-
- ifelse  (A3_Opened$Assignment_Group=="Enterprise Tools" ,"Operations Tools"
-,ifelse  (A3_Opened$Assignment_Group=="Infrastructure Tools and Analysis" ,"Infrastructure Tools & Analysis","OTHERS"))
+ ifelse  (A3_Opened$Assignment_Group=="Enterprise Tools" ,"Operations Tools","OTHERS")
 
 new<-rbind(Serv_Now,A3_Opened)
 
@@ -67,11 +72,36 @@ A3_Closed$Closed_At<-as.character(A3_Closed$Closed_At)
 
 A3_Closed$SLO_Breach<-ifelse(A3_Closed$SLO_Breach == 1,A3_Closed$SLO_Breach <- 'Y',A3_Closed$SLO_Breach <- 'N')
 
+A3_Closed<-subset(A3_Closed,Assignment_Group!=63465 | is.na(Assignment_Group))
+
+A3_Closed$Assignment_Group[A3_Closed$Assignment_Group==92322] <- "Enterprise Tools"
+
 A3_Closed$Ops_Team <-
-  ifelse  (A3_Closed$Assignment_Group=="Enterprise Tools" ,"Operations Tools"
-           ,ifelse  (A3_Closed$Assignment_Group=="Infrastructure Tools and Analysis" ,"Infrastructure Tools & Analysis","OTHERS"))
+  ifelse  (A3_Closed$Assignment_Group=="Enterprise Tools" ,"Operations Tools","OTHERS")
 
 new2<-rbind(new,A3_Closed)
+
+########A3NEW#####START###########A3################A3########A3################A3################A3########A3################A3################A3
+Master_A3_TDA<-read_excel("8Months2.xls")
+A3_TDA<-Master_A3_TDA[,c(2,1,5,4,8,7,6)]
+
+A3_TDA$Assignment_Group<-'Infrastructure Tools & Analysis'
+A3_TDA$Due_Date<-''
+A3_TDA$Expected_Del_Date<-""
+A3_TDA$Task<-""
+A3_TDA$SLO_Breach<-""
+A3_TDA$Ops_Team<-'Infrastructure Tools & Analysis'
+
+A3_TDA<-A3_TDA[,c(1,2,8,3,4,5,9,10,6,11,12,7,13)]
+
+colnames(A3_TDA)<-c("Source","Number","Assignment_Group","Assigned_To","State","Opened_At","Due_Date","Expected_Del_Date","Closed_At","Task","SLO_Breach","Product","Ops_Team")
+
+A3_TDA$Opened_At<-as.character(A3_TDA$Opened_At)
+A3_TDA$Closed_At<-as.character(A3_TDA$Closed_At)
+A3_TDA$Number<-as.character(A3_TDA$Number)
+
+new2x<-rbind(new2,A3_TDA)
+########A3NEW#####END###########A3################A3########A3################A3################A3########A3################A3################A3
 ########RMS################RMS################RMS################RMS################RMS################RMS################RMS################RMS################RMS################RMS################RMS################RMS########
 
 RMS<-read.xlsx("RMS Good Data.xlsx",1)[,c(2,3,34,35,36,37,39,40,67)]
@@ -90,7 +120,7 @@ RMS$Due_Date<-as.character(RMS$Due_Date)
 
 RMS$Ops_Team<-req_rms_opsteam(RMS)
 
-new3<-rbind(new2,RMS)
+new3<-rbind(new2x,RMS)
 
 ##############SDM  T_Requests###################
 
@@ -284,7 +314,7 @@ new5<-rbind(new4,NIR2)
 #Add stringr library and REMOVE WHITESPACES
 new5$Assignment_Group<-str_trim(new5$Assignment_Group)
 
-
+#########del#########x--->new5<-new5[which(new5$Assignment_Group!="Infrastructure Tools and Analysis" & Source=="A3 Open"),]
 
 # function(df_name,new_col,col_2b_checked)###Add new col Ops_Group
 ###**********new5$Ops_Group<-AddOpsGrp(new5,Ops_Group,Assignment_Group)
@@ -509,3 +539,6 @@ new5$Ops_Team[is.na(new5$Ops_Team)] <- "OTHERS"
 ####NM1-end###
 
 write.xlsx(new5, file="Consolidated.xlsx",row.names=FALSE)
+# 
+# new6<-tbl_df(new5)
+# new6<-filter(new5,!(Assignment_Group=="Infrastructure Tools and Analysis" & source='A3 Open'))
