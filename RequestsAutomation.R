@@ -21,6 +21,8 @@ colnames(Serv_Now)<-c("Source","Number","Assignment_Group","Assigned_To","State"
 
 Serv_Now$Ops_Team<-req_servnow_opsteam(Serv_Now)
 
+Serv_Now$Ops_Team[Serv_Now$Ops_Grp=="TS-OPS-Akamai" ] <- "Akamai"
+
 #####A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened########
 
 Master_A3_Opened<-read.xlsx("A3-master.xlsx",3)
@@ -131,7 +133,7 @@ new3<-rbind(new2x,RMS)
 dbhandle <- odbcDriverConnect('driver={SQL Server};server=CRSDPSSCA0REP,3341;database=SDMReporting;uid=webuser;pwd=WebUser72')
 #SDM <- sqlQuery(dbhandle, "SELECT * FROM [SDMReporting].[dbo].[T_Requests] where Open_Date > '2016-08-31 23:59:59.000' and Open_Date < '2016-10-01 00:00:00.000'")
 
-SDM <- sqlQuery(dbhandle, "SELECT * FROM [SDMReporting].[dbo].[T_Requests] where Assigned_Group in ('ITS-EITO-Batch Operations',	'ITS-EITO-BATCH-ANALYSIS',	'ITS-EITO-Change Management',	'ITS-EITO-Change Response Team',	'ITS-EITO-Cloud Infrastructure Support',	'ITS-EITO-Cloud Tenant Support',	'ITS-EITO-CloudOps',	'ITS-EITO-Database Netezza',	'ITS-EITO-Database-DB2',	'ITS-EITO-Database-Essbase',	'ITS-EITO-Database-Oracle',	'ITS-EITO-Database-SQL',	'ITS-EITO-Database-Sybase',	'ITS-EITO-EBX-Operations',	'ITS-EITO-Enterprise Environment Surveillance',	'ITS-EITO-Host Operations',	'ITS-EITO-iOS-APP',	'ITS-EITO-NS-NWO-NM',	'ITS-EITO-Operations Coordination Group',	'Inactive-ITS-EITO-OSG-APP-DC-US',	'Inactive-ITS-EITO-OSG-APP-TDCT-CORP-WW',	'ITS-EITO-OSG-iOS',	'ITS-EITO-OSG-MON',	'ITS-EITO-OSG-MW',	'ITS-EITO-OSG-NWO',	'ITS-EITO-OSG-WIN',	'ITS-EITO-Reporting',	'ITS-EITO-Scheduling Services',	'ITS-EITO-Service Management',	'ITS-EITO-Service Support Tools Services',	'ITS-EITO-TIS',	'ITS-EITO-Tool Solutions Distributed',	'ITS-EITO-Tool Solutions Host',	'ITS-EITO-TR-Application',	'ITS-EITO-TR-Data Protection',	'ITS-EITO-TR-Data Storage',	'ITS-EITO-TR-DCM',	'ITS-EITO-TR-DDSG',	'ITS-EITO-TR-EUT-Citrix',	'ITS-EITO-TR-EUT-Messaging',	'ITS-EITO-TR-EUT-Messaging Security',	'ITS-EITO-TR-EUT-Mobility',	'ITS-EITO-TR-EUT-SharePoint and IIS',	'ITS-EITO-TR-EUT-Unified Communications',	'ITS-EITO-TR-Middleware',	'ITS-EITO-TR-Monitoring',	'ITS-EITO-TR-NETWORK',	'ITS-EITO-TR-Network Performance',	'ITS-EITO-TR-SecTools',	'ITS-EITO-TR-Windows',	'ITS-EITO-UNIX',	'ITS-ETNS-WSP-INTEL-T',	'ITS-ETNS-WSP-TIVOLI',	'ITS-OPS-Incident Specialist',	'ITS-OPS-SPS-EUT-RAS',	'ITS-TDI-GI-AS400 Response Team',	'ITS-TDI-GI-AS400 Security Response Team',	'ITS-TDI-GI-BATCH-Operation response team',	'ITS-TDI-GI-Middleware Response Team',	'ITS-TDI-GI-UNIX Response Team',	'ITS-TDI-GI-Windows Response Team',	'TDI-LH-PSAM-ITS',	'VEN-IBM-AIX Acct Team',	'VEN-IBM-AIX Change Mgmt',	'VEN-IBM-AIX Support',	'VEN-IBM-EMSG',	'VEN-IBM-EMSG-ESC',	'VEN-IBM-EMSG-PGR',	'VEN-IBM-ESTORAGE',	'VEN-IBM-GOODTECH',	'CORP-GSI-VDI Support',	'DCTS-ATM-Operations',	'CBAW-APP-Support',	'EETS-PROD-Support-team',	'TDS-APP-SUPPORT',	'ITS-AMCB-EITO- Application Response Team - Encore',	'DCTS-Digital-Support',	'TS-AMCB-Ops-Application',	'DC-TS-CCS',	'DC-TS-AMCB-Online Channels',	'CAMS-APP-SUPPORT',	'CBAW-TS-Retail-Sales',	'CBAW-TS-Retail-Service',	'ITS-EITO-MQ Response', 'ITS-EITO-EBX-Operations','ITS-EITO-Scheduling Services','ITS-TDI-GI-BATCH-Operation')")
+SDM <- sqlQuery(dbhandle, "SELECT * FROM [SDMReporting].[dbo].[T_Requests] where Assigned_Group in ('ITS-EITO-Batch Operations',	'ITS-EITO-BATCH-ANALYSIS',	'ITS-EITO-Change Management',	'ITS-EITO-Change Response Team',	'ITS-EITO-Cloud Infrastructure Support',	'ITS-EITO-Cloud Tenant Support',	'ITS-EITO-CloudOps',	'ITS-EITO-Database Netezza',	'ITS-EITO-Database-DB2',	'ITS-EITO-Database-Essbase',	'ITS-EITO-Database-Oracle',	'ITS-EITO-Database-SQL',	'ITS-EITO-Database-Sybase',	'ITS-EITO-EBX-Operations',	'ITS-EITO-Enterprise Environment Surveillance',	'ITS-EITO-Host Operations',	'ITS-EITO-iOS-APP',	'ITS-EITO-NS-NWO-NM',	'ITS-EITO-Operations Coordination Group',	'Inactive-ITS-EITO-OSG-APP-DC-US',	'Inactive-ITS-EITO-OSG-APP-TDCT-CORP-WW',	'ITS-EITO-OSG-iOS',	'ITS-EITO-OSG-MON',	'ITS-EITO-OSG-MW',	'ITS-EITO-OSG-NWO',	'ITS-EITO-OSG-WIN',	'ITS-EITO-Reporting',	'ITS-EITO-Scheduling Services',	'ITS-EITO-Service Management',	'ITS-EITO-Service Support Tools Services',	'ITS-EITO-TIS',	'ITS-EITO-Tool Solutions Distributed',	'ITS-EITO-Tool Solutions Host',	'ITS-EITO-TR-Application',	'ITS-EITO-TR-Data Protection',	'ITS-EITO-TR-Data Storage',	'ITS-EITO-TR-DCM',	'ITS-EITO-TR-DDSG',	'ITS-EITO-TR-EUT-Citrix',	'ITS-EITO-TR-EUT-Messaging',	'ITS-EITO-TR-EUT-Messaging Security',	'ITS-EITO-TR-EUT-Mobility',	'ITS-EITO-TR-EUT-SharePoint and IIS',	'ITS-EITO-TR-EUT-Unified Communications',	'ITS-EITO-TR-Middleware',	'ITS-EITO-TR-Monitoring',	'ITS-EITO-TR-NETWORK',	'ITS-EITO-TR-Network Performance',	'ITS-EITO-TR-SecTools',	'ITS-EITO-TR-Windows',	'ITS-EITO-UNIX',	'ITS-ETNS-WSP-INTEL-T',	'ITS-ETNS-WSP-TIVOLI',	'ITS-OPS-Incident Specialist',	'ITS-OPS-SPS-EUT-RAS',	'ITS-TDI-GI-AS400 Response Team',	'ITS-TDI-GI-AS400 Security Response Team',	'ITS-TDI-GI-BATCH-Operation response team',	'ITS-TDI-GI-Middleware Response Team',	'ITS-TDI-GI-UNIX Response Team',	'ITS-TDI-GI-Windows Response Team',	'TDI-LH-PSAM-ITS',	'VEN-IBM-AIX Acct Team',	'VEN-IBM-AIX Change Mgmt',	'VEN-IBM-AIX Support',	'VEN-IBM-EMSG',	'VEN-IBM-EMSG-ESC',	'VEN-IBM-EMSG-PGR',	'VEN-IBM-ESTORAGE',	'VEN-IBM-GOODTECH',	'CORP-GSI-VDI Support',	'DCTS-ATM-Operations',	'CBAW-APP-Support',	'EETS-PROD-Support-team',	'TDS-APP-SUPPORT',	'ITS-AMCB-EITO- Application Response Team - Encore',	'DCTS-Digital-Support',	'TS-AMCB-Ops-Application',	'DC-TS-CCS',	'DC-TS-AMCB-Online Channels',	'CAMS-APP-SUPPORT',	'CBAW-TS-Retail-Sales',	'CBAW-TS-Retail-Service',	'ITS-EITO-MQ Response', 'ITS-EITO-EBX-Operations','ITS-EITO-Scheduling Services','ITS-TDI-GI-BATCH-Operation','ITS-EITO-AKAMAI')")
 odbcCloseAll()
 
 SDM2<-SDM[,c(1,3,12,5,7,16,10)]
@@ -232,10 +234,10 @@ SDM2$Ops_Team<- ifelse(
     SDM2$Ops_Team =="Database"   | SDM2$Ops_Team=="iSeries"            | SDM2$Ops_Team=="Monitoring Tools Optimization"|
     SDM2$Ops_Team =="Directories"| SDM2$Ops_Team=="End User Technology"| SDM2$Ops_Team=="Operations Tools"|  
     SDM2$Ops_Team =="MQ"         | SDM2$Ops_Team=="Cloud"              | SDM2$Ops_Team=="Security and Monitoring Tools"|
-    SDM2$Ops_Team =="Change"     | SDM2$Ops_Team=="Ops Integration Lead"| SDM2$Ops_Team=="Automation and Innovation"
+    SDM2$Ops_Team =="Change"     | SDM2$Ops_Team=="Ops Integration Lead"| SDM2$Ops_Team=="Automation and Innovation" 
    ,SDM2$Ops_Team,"OTHERS")
 
-
+SDM2$Ops_Team[SDM2$Ops_Grp=="ITS-EITO-AKAMAI" ] <- "Akamai"
 
 
 new4<-rbind(new3,SDM2)
@@ -505,6 +507,8 @@ new5$Ops_Grp[new5$Ops_Grp=="TDI-ServiceDesk Telepresence" ] <- "GSS"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-Voice Support" ] <- "GSS"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-Unix Response Team" ] <- "Core Infrastructure"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-Windows-Response Team" ] <- "Core Infrastructure"
+new5$Ops_Grp[new5$Ops_Grp=="TS-OPS-Akamai"] <- "Core Infrastructure"
+new5$Ops_Grp[new5$Ops_Grp=="ITS-EITO-AKAMAI"] <- "Core Infrastructure"
                    
 
 new5$Ops_Grp<- ifelse(
@@ -523,6 +527,10 @@ new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-Host Operations"] <- "Batch"
 ###WORKAROUND...SHORCUT..CORRECT when you have time
 #Serv Now
 new5$Ops_Team[new5$Assignment_Group=="VEN-IBM-AIX Team"] <- "AIX"
+new5$Ops_Team[new5$Assignment_Group=="TS-OPS-Akamai"] <- "Akamai"
+#SDM
+new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-AKAMAI"] <- "Akamai"
+
 #A3
 new5$Ops_Team[new5$Assignment_Group=="Infrastructure Tools and Analysis"] <- "Infrastructure Tools & Analysis"
 new5$Ops_Team[new5$Assignment_Group=="Enterprise Tools"] <- "Operations Tools"
