@@ -30,15 +30,15 @@ req_servnow_opsteam <- function(Source)
                   ,
                   ifelse  (
                     Source$Assignment_Group == "ITS-EITO-Data Storage-SAN" ,
-                    "Storage and Data Protection"
+                    "Storage"
                     ,
                     ifelse  (
                       Source$Assignment_Group == "ITS-EITO-Data Storage-NAS" ,
-                      "Storage and Data Protection"
+                      "Storage"
                       ,
                       ifelse  (
                         Source$Assignment_Group == "ITS-EITO-DATA Protection" ,
-                        "Storage and Data Protection"
+                        "Data Protection"
                         ,
                         ifelse  (
                           Source$Assignment_Group == "ITS-EITO-TR-DCM" ,
