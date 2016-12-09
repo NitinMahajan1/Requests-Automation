@@ -156,8 +156,8 @@ SDM2$Ops_Team <-
 ifelse   (SDM2$Assignment_Group== "ITS-EITO-NS-NWO-NM","Infrastructure Tools & Analysis"
 ,ifelse  (SDM2$Assignment_Group== "ITS-EITO-OSG-NWO","Network"
 ,ifelse  (SDM2$Assignment_Group== "ITS-EITO-OSG-WIN","Windows"
-,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Data Protection","Storage and Data Protection"
-,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Data Storage","Storage and Data Protection"
+,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Data Protection","Data Protection"
+,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Data Storage","Storage"
 ,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-DCM","Data Centre Mgmt"
 ,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Network","Network"
 ,ifelse  (SDM2$Assignment_Group== "ITS-EITO-TR-Network Performance","Infrastructure Tools & Analysis"
@@ -280,8 +280,8 @@ NIR2$Ops_Team <-
 ,ifelse  (NIR2$Assignment_Group=="OS-Virtual"  , "Windows"
 ,ifelse  (NIR2$Assignment_Group=="Workspace Server Solutions & Support" ,"Windows"
 ,ifelse  (NIR2$Assignment_Group=="Systems Response File Print Team" ,"Windows"
-,ifelse  (NIR2$Assignment_Group=="Storage-Data Protection" ,"Storage and Data Protection"
-,ifelse  (NIR2$Assignment_Group=="Storage-Data Storage" ,"Storage and Data Protection"
+,ifelse  (NIR2$Assignment_Group=="Storage-Data Protection" ,"Data Protection"
+,ifelse  (NIR2$Assignment_Group=="Storage-Data Storage" ,"Storage"
 ,ifelse  (NIR2$Assignment_Group=="VEN-IBM-AIX Support" ,"AIX"
 ,ifelse  (NIR2$Assignment_Group=="ITS-EITO-TR-EUT-Messaging" ,"End User Technology"
 ,ifelse  (NIR2$Assignment_Group=="ITS-EITO-TR-EUT-SharePoint and IIS" ,"End User Technology"
@@ -546,7 +546,12 @@ new5$Ops_Team[is.na(new5$Ops_Team)] <- "OTHERS"
 
 ####NM1-end###
 
+new5<-subset(new5,State!='Cancelled' & State!='Closed Cancelled' & State!='Closed Incomplete' 
+             & State!='Closed Skipped' & State!= 'Returned to Requester')
+
+
 write.xlsx(new5, file="Consolidated.xlsx",row.names=FALSE)
+ 
 # 
 # new6<-tbl_df(new5)
 # new6<-filter(new5,!(Assignment_Group=="Infrastructure Tools and Analysis" & source='A3 Open'))
