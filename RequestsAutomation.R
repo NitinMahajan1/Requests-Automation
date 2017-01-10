@@ -1,5 +1,5 @@
 setwd("C:/Users/Redirection/mahajn3/Documents/GitHub/Requests-Automation")
-library(xlsx)
+# library(xlsx)
 library(readxl)
 library(openxlsx)
 library(RODBC)
@@ -21,8 +21,10 @@ colnames(Serv_Now)<-c("Source","Number","Assignment_Group","Assigned_To","State"
 
 Serv_Now$Ops_Team<-req_servnow_opsteam(Serv_Now)
 
-Serv_Now$Ops_Team[Serv_Now$Ops_Grp=="TS-OPS-Akamai" ] <- "Akamai"
+Serv_Now$Ops_Team[Serv_Now$Assignment_Group=="TS-OPS-Akamai" ] <- "Akamai"
 
+Serv_Now$Ops_Team[Serv_Now$Assignment_Group=="ITS-OPS-IOS-APP" ] <- "iSeries"
+Serv_Now$Ops_Team[Serv_Now$Assignment_Group=="ITS-OPS-IOS" ] <- "iSeries"
 #####A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened#############A3 Opened########
 
 Master_A3_Opened<-read.xlsx("A3-master.xlsx",3)
@@ -119,6 +121,10 @@ colnames(RMS)<-c("Source","Number","Assignment_Group","Assigned_To","State","Ope
 RMS$Due_Date<-convertToDate(RMS$Due_Date, origin = "1900-01-01")
 RMS$Due_Date<-as.character(RMS$Due_Date)
 
+RMS_2<-RMS
+
+RMS$Closed_At<-strptime(RMS$Closed_At,format ="%m/%d/%Y %I:%M %p" )
+RMS$Closed_At<-as.character(RMS$Closed_At)
 
 RMS$Ops_Team<-req_rms_opsteam(RMS)
 
@@ -449,8 +455,8 @@ new5$Ops_Grp[new5$Ops_Grp=="VEN-IBM-AIX Team" ] <- "Core Infrastructure"
 new5$Ops_Grp[new5$Ops_Grp=="ITS EITO OSG Windows" ] <- "Core Infrastructure"
 new5$Ops_Grp[new5$Ops_Grp=="ITS EITO TR Windows" ] <- "Core Infrastructure"
 new5$Ops_Grp[new5$Ops_Grp=="ITS EITO Windows" ] <- "Core Infrastructure"
-
-
+new5$Ops_Grp[new5$Ops_Grp=="ITS-OPS-IOS-APP" ] <- "Software and Platform Services"
+new5$Ops_Grp[new5$Ops_Grp=="ITS-OPS-IOS" ] <- "Software and Platform Services"
 
 
 #//NIR
@@ -498,7 +504,7 @@ new5$Ops_Grp[new5$Ops_Grp=="Database-Sybase" ] <- "Software and Platform Service
 
 #//RMS
 new5$Ops_Grp[new5$Ops_Grp=="TDI-AS400 Response Team" ] <- "Software and Platform Services"
-new5$Ops_Grp[new5$Ops_Grp=="TDI-BATCH-Operation Response Team" ] <- "Data Centre Operations"
+new5$Ops_Grp[new5$Ops_Grp=="ITS-TDI-BATCH-Operation Response Team" ] <- "Data Centre Operations"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-CCI-OPS" ] <- "GSS"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-DBA-Oracle access support" ] <- "Software and Platform Services"
 new5$Ops_Grp[new5$Ops_Grp=="TDI-ServiceDesk Insurance support" ] <- "GSS"
@@ -527,9 +533,11 @@ new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-Host Operations"] <- "Batch"
 ###WORKAROUND...SHORCUT..CORRECT when you have time
 #Serv Now
 new5$Ops_Team[new5$Assignment_Group=="VEN-IBM-AIX Team"] <- "AIX"
-new5$Ops_Team[new5$Assignment_Group=="TS-OPS-Akamai"] <- "Akamai"
+# FIXED--?new5$Ops_Team[new5$Assignment_Group=="TS-OPS-Akamai"] <- "Akamai"
 #SDM
 new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-AKAMAI"] <- "Akamai"
+new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-TR-Data Protection"] <- "Data Protection"
+new5$Ops_Team[new5$Assignment_Group=="ITS-EITO-TR-Data Storage"] <- "Storage"
 
 #A3
 new5$Ops_Team[new5$Assignment_Group=="Infrastructure Tools and Analysis"] <- "Infrastructure Tools & Analysis"
@@ -547,7 +555,7 @@ new5$Ops_Team[is.na(new5$Ops_Team)] <- "OTHERS"
 ####NM1-end###
 
 new5<-subset(new5,State!='Cancelled' & State!='Closed Cancelled' & State!='Closed Incomplete' 
-             & State!='Closed Skipped' & State!= 'Returned to Requester')
+             & State!='Closed Skipped' & State!= 'Returned to Requester' & State!= 'Template Creation')
 
 
 write.xlsx(new5, file="Consolidated.xlsx",row.names=FALSE)
